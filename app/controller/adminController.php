@@ -29,17 +29,17 @@ class AdminController
 
         $db = new chatgptModel;
         $table_chatgpt = "{$wpdb->prefix}chatgpt";
-        $list = $db->Select($table_chatgpt, 0);
+        // $list = $db->Select($table_chatgpt, 0);
 
-        if ($_POST) {
+        // if ($_POST) {
 
-            $wpdb->update($table_chatgpt, $_POST["data"], ['id' => $_POST["data"]["id"]]);
-            $list = $db->Select($table_chatgpt, 0);
-            return json_encode($list[0]);;
-        } else {
+        //     $wpdb->update($table_chatgpt, $_POST["data"], ['id' => $_POST["data"]["id"]]);
+        //     $list = $db->Select($table_chatgpt, 0);
+        //     return json_encode($list[0]);;
+        // } else {
             $wpdb->insert($table_chatgpt, $_POST["data"]);
             return json_encode("there is not data");
-        }
+        // }
     }
     public function GetDataUserAdminchatgpt()
     {

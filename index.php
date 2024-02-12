@@ -8,6 +8,8 @@ Version: 1.00
 require_once "app/controller/chatgptController.php";
 require_once "app/controller/adminController.php";
 
+define ('URLPLUGIN', basename(dirname(__FILE__))."/public/view/index.php");
+
 function Active()
 {
     $a =   new adminController;
@@ -34,10 +36,10 @@ add_action('admin_menu', 'CreateMenu');
 
 function RegisterBootstrapJS($hook)
 {
-    // echo "<script>console.log('$hook')</script>";
-    if ($hook != "chatgpt/public/view/index.php") {
+    if ($hook != URLPLUGIN) {
         return;
     }
+    echo "<script>console.log('".URLPLUGIN."')</script>";
     wp_enqueue_script('bootstrapJs', plugins_url('public/assets/bootstrap-5.2.3-dist/js/bootstrap.bundle.js', __FILE__), array('jquery'));
 }
 add_action('admin_enqueue_scripts', 'RegisterBootstrapJS');
@@ -45,8 +47,7 @@ add_action('admin_enqueue_scripts', 'RegisterBootstrapJS');
 
 function RegisterBootstrapCSS($hook)
 {
-    // echo "<script>console.log('$hook')</script>";
-    if ($hook != "chatgpt/public/view/index.php") {
+    if ($hook != URLPLUGIN) {
         return;
     }
     wp_enqueue_style('bootstrapCss', plugins_url('public/assets/bootstrap-5.2.3-dist/css/bootstrap.min.css', __FILE__));
@@ -59,7 +60,7 @@ add_action('admin_enqueue_scripts', 'RegisterBootstrapCSS');
 
 function RegisterJsChatgpt($hook)
 {
-    if ($hook != "chatgpt/public/view/index.php") {
+    if ($hook != URLPLUGIN) {
         return;
     }
     wp_enqueue_script('JsExternal', plugins_url('public/assets/js/index.js', __FILE__), array('jquery'), '1', true);
