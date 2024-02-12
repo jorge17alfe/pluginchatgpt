@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: ChatGPT
+Plugin Name: ChatGPTgffd
 Description: This is amazon plugin
 Version: 1.00
 */
