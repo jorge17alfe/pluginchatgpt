@@ -1,14 +1,14 @@
 <?php
 /*
-Plugin Name: ChatGPTgffd
-Description: This is amazon plugin
+Plugin Name: Generate Page Gpt
+Description: This is a Generate page auto
 Version: 1.00
 */
 
 require_once "app/controller/chatgptController.php";
 require_once "app/controller/adminController.php";
 
-define ('URLPLUGIN', basename(dirname(__FILE__))."/public/view/index.php");
+define('URLPLUGIN', basename(dirname(__FILE__)) . "/public/view/index.php");
 
 function Active()
 {
@@ -36,10 +36,10 @@ add_action('admin_menu', 'CreateMenu');
 
 function RegisterBootstrapJS($hook)
 {
+    // echo "<script>console.log('".URLPLUGIN."')</script>";
     if ($hook != URLPLUGIN) {
         return;
     }
-    echo "<script>console.log('".URLPLUGIN."')</script>";
     wp_enqueue_script('bootstrapJs', plugins_url('public/assets/bootstrap-5.2.3-dist/js/bootstrap.bundle.js', __FILE__), array('jquery'));
 }
 add_action('admin_enqueue_scripts', 'RegisterBootstrapJS');
@@ -75,14 +75,19 @@ add_action('admin_enqueue_scripts', 'RegisterJsChatgpt');
 
 // // savedata 
 
+function getDataUserAdminchatgpt()
+{
+    $a =   new adminController;
+    echo $a->GetDataUserAdminchatgpt();
+}
+
+add_action('wp_ajax_nopriv_get_data_user_chatgpt', 'GetDataUserAdminchatgpt');
+add_action('wp_ajax_get_data_user_chatgpt', 'GetDataUserAdminchatgpt');
+
 function SaveDataUserAdminchatgpt()
 {
     $a =   new adminController;
-    if($_GET){
-        echo $a->GetDataUserAdminchatgpt();
-        return;
-    }
-    echo  $a->SaveDataUserAdminchatgpt();
+    echo $a->SaveDataUserAdminchatgpt();
 }
 
 add_action('wp_ajax_nopriv_save_data_user_chatgpt', 'SaveDataUserAdminchatgpt');
@@ -91,7 +96,7 @@ add_action('wp_ajax_save_data_user_chatgpt', 'SaveDataUserAdminchatgpt');
 
 function SaveCreatePageIA()
 {
-    
+
     $a =   new chatgptController;
     echo  $a->SaveCreatePageIA();
 }
@@ -101,22 +106,21 @@ add_action('wp_ajax_save_create_page_IA', 'SaveCreatePageIA');
 
 function GetAllPages()
 {
-   
-    if($_POST){
-        if(!isset($_POST["data"]["since"] )|| $_POST["data"]["since"] < 0){
 
-            $since= 0;
-        }else{
-            $since= $_POST["data"]["since"];
+    if ($_POST) {
+        if (!isset($_POST["data"]["since"]) || $_POST["data"]["since"] < 0) {
 
+            $since = 0;
+        } else {
+            $since = $_POST["data"]["since"];
         }
-        $total_rows= $_POST["data"]["total_rows"];
-    }else if($_GET){
-        $since= 0;
-        $total_rows= 5;
+        $total_rows = $_POST["data"]["total_rows"];
+    } else if ($_GET) {
+        $since = 0;
+        $total_rows = 5;
     }
     $a =   new chatgptController;
-    echo  $a->GetAllPages(($since*$total_rows),$total_rows);
+    echo  $a->GetAllPages(($since * $total_rows), $total_rows);
 }
 
 add_action('wp_ajax_nopriv_get_all_pages', 'GetAllPages');
@@ -128,5 +132,4 @@ function GetShortCode($atts)
     $a =   new chatgptController;
     return $a->GetShortCode($atts);
 }
-add_shortcode("CHATGPT", "GetShortCode");
-
+add_shortcode("GENERATEGPT", "GetShortCode");

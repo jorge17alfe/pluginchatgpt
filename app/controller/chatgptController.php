@@ -57,10 +57,10 @@ class chatgptController
 
             $query = "SELECT id FROM {$wpdb->prefix}chatgptshortcontent ORDER BY id DESC limit 1";
             $getId =  $wpdb->get_results($query, ARRAY_A);
-            $printId = ($getId[0]["id"]+1);
+            $printId = ($getId[0]["id"]);
 
             $data = [
-                "shortCode" => "[CHATCONSULT id='" . $printId . "']",
+                "shortCode" => "[CHATCONSULT id='" . ($printId+1) . "']",
                 "title" => $_POST["data"]['title'],
                 // "consult" => $_POST["data"]["content"],//come imput frontend
                 "consult" => $getResponseChatgpt,
@@ -95,7 +95,7 @@ class chatgptController
     public function ArmConsult($atts)
     {
 
-        // return "un poema hacia  {$atts['title']} ";
+        return "un poema hacia  {$atts['title']} ";
         return "Redactame un articulo completo de {$atts['title']} para una pagina web, con titulo principal envuelto en h1  y subtitulos en al menos 10 secciones envueltos en h3 un link a con src ";
         return
             "   Crea un texto de  pagina web con un titulo pegadizo de {$atts['title']} envuelto en h1. 

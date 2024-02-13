@@ -9,6 +9,7 @@ class chatgptModel
         $table1 = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}chatgpt(
             `id` INT  NULL ,
             `name` VARCHAR(60) NULL,
+            `status` ENUM('admin'),
             `surname` VARCHAR(60) NULL,
             `tokenOpenai` VARCHAR(100) NULL,
             `amazonID` VARCHAR(50) NULL,

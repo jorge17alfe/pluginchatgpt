@@ -8,6 +8,7 @@ jQuery(document).ready(($) => {
 
         datas = {
             id: chatgptid.value,
+            status: chatgptstatus.value,
             tokenOpenai: chatgptToken.value,
             amazonID: chatgptAmazon.value,
             name: chatgptName.value,
@@ -26,7 +27,8 @@ jQuery(document).ready(($) => {
             },
 
         }).done((response) => {
-            getRow(response)
+            location.reload()
+            // getRow(response)
         });
 
 
@@ -38,18 +40,19 @@ jQuery(document).ready(($) => {
         type: "GET",
         url: url,
         data: {
-            action: "save_data_user_chatgpt",
+            action: "get_data_user_chatgpt",
             nonce: PetitionAjax.security
         },
 
     }).done((response) => {
-        // console.log(response)
         getRow(response);
     });
-
+    
     function getRow(response) {
         response = response.substring(0, response.length - 1)
         response = JSON.parse(response)
+        console.log(response)
+        // $("#chatgptToken").attr("disabled","disabled")
         chatgptToken.value = response.tokenOpenai
         chatgptAmazon.value = response.amazonID
         chatgptid.value = response.id
@@ -119,7 +122,7 @@ jQuery(document).ready(($) => {
         response = response.substring(0, response.length - 1)
         response = JSON.parse(response)
         console.log(response)
-        total_rows = response.length
+        total_rows = response.length ?? 1
         printGrouprow(response)
 
     });

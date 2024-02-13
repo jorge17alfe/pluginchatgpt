@@ -11,6 +11,7 @@
     <form class=" row g-2  my-3" id="formDataUser" novalidate>
         <div class="col-md-12 col-lg-8">
             <input type="hidden" class="form-control form-control-sm" value="0" id="chatgptid" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <input type="hidden" class="form-control form-control-sm" value="admin" id="chatgptstatus" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             <div class="input-group input-group-sm ">
                 <span class="input-group-text">Token Openai</span>
                 <input type="text" class="form-control form-control-sm" value="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" id="chatgptToken" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">

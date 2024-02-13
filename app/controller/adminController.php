@@ -4,6 +4,12 @@ require_once plugin_dir_path(__DIR__) . "model/chatgptModel.php";
 
 class AdminController
 {
+    private $status ='';
+
+    public function __construct()
+    {
+        $this->status= 0;
+    }
     public function Active()
     {
         $a = new chatgptModel;
@@ -29,33 +35,28 @@ class AdminController
 
         $db = new chatgptModel;
         $table_chatgpt = "{$wpdb->prefix}chatgpt";
-        // $list = $db->Select($table_chatgpt, 0);
+        $list = $db->Select($table_chatgpt, $this->status);
 
-        // if ($_POST) {
+        if (count($list)===1) {
 
-        //     $wpdb->update($table_chatgpt, $_POST["data"], ['id' => $_POST["data"]["id"]]);
-        //     $list = $db->Select($table_chatgpt, 0);
-        //     return json_encode($list[0]);;
-        // } else {
+            $wpdb->update($table_chatgpt, $_POST["data"], ['id' => $_POST["data"]["id"]]);
+            $list = $db->Select($table_chatgpt, $this->status);
+            return json_encode($list[0]);;
+        } else {
             $wpdb->insert($table_chatgpt, $_POST["data"]);
             return json_encode("there is not data");
-        // }
-    }
-    public function GetDataUserAdminchatgpt()
-    {
-        $db = new chatgptModel;
-        if ($_GET) {
-            global $wpdb;
-            $table_chatgpt = "{$wpdb->prefix}chatgpt";
-            $list = $db->Select($table_chatgpt, 0);
-            return json_encode($list[0]);;
         }
     }
-  
- 
 
-  
-
-
- 
+    public function GetDataUserAdminchatgpt()
+    {
+        global $wpdb;
+        $db = new chatgptModel;
+        $table_chatgpt = "{$wpdb->prefix}chatgpt";
+        $list = $db->Select($table_chatgpt, $this->status);
+        // if(empty($list)){
+        //     return json_encode();
+        // }
+        return json_encode($list[0]);
+    }
 }
