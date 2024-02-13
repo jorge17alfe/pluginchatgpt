@@ -43,6 +43,12 @@ class GeneratePageController
 
     public function SaveCreatePageIA()
     {
+
+        if (!file_exists(__DIR__ . "/../../vendor/autoload.php")) {
+            return json_encode(["content" =>  "eject dependencias [composer install]", "id" => 0]);
+        }
+
+
         try {
             if ($_POST["action"] == "save_create_page_IA") {
 

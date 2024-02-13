@@ -8,11 +8,6 @@ class GptController
 
         include_once __DIR__ . "/../../vendor/autoload.php";
 
-        if (!file_exists(__DIR__ . "/../../vendor/autoload.php")) {
-            return json_encode(["content" =>  "eject dependencias [composer install]", "id" => 0]);
-        }
-
-
         $client = OpenAI::client($response[0]["tokenOpenai"]);
 
         $inputGpt = $this->ArmConsult($input);
