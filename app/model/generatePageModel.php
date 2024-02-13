@@ -1,12 +1,12 @@
 <?php
 
-class chatgptModel
+class GeneratePageModel
 {
     public function Active()
     {
        
         global $wpdb;
-        $table1 = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}chatgpt(
+        $table1 = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}generatepageadmin(
             `id` INT  NULL ,
             `name` VARCHAR(60) NULL,
             `status` ENUM('admin'),
@@ -20,7 +20,7 @@ class chatgptModel
 
          $wpdb->query($table1);
 
-         $table2 = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}chatgptshortContent(
+         $table2 = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}generatepage(
             `id` INT NOT NULL AUTO_INCREMENT,
             `shortCode` VARCHAR(255) NULL,
             `title` VARCHAR(255) NULL,

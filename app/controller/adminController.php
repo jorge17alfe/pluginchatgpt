@@ -1,18 +1,23 @@
 <?php
 
-require_once plugin_dir_path(__DIR__) . "model/chatgptModel.php";
+require_once plugin_dir_path(__DIR__) . "model/generatePageModel.php";
 
 class AdminController
 {
     private $status ='';
+    private $db;
+    private $table_generate ;
 
     public function __construct()
     {
         $this->status= 0;
+        $this->table_generate = "generatepageadmin";
+        $this->db = new GeneratePageModel;
     }
+
     public function Active()
     {
-        $a = new chatgptModel;
+        $a = new GeneratePageModel;
         $a->Active();
     }
 
@@ -29,34 +34,31 @@ class AdminController
         );
     }
 
-    public function SaveDataUserAdminchatgpt()
+    public function SaveDataUserAdmin()
     {
         global $wpdb;
 
-        $db = new chatgptModel;
-        $table_chatgpt = "{$wpdb->prefix}chatgpt";
-        $list = $db->Select($table_chatgpt, $this->status);
+        $db = new GeneratePageModel;
+        $table_generate = $wpdb->prefix.$this->table_generate;
+        $list = $db->Select($table_generate, $this->status);
 
         if (count($list)===1) {
 
-            $wpdb->update($table_chatgpt, $_POST["data"], ['id' => $_POST["data"]["id"]]);
-            $list = $db->Select($table_chatgpt, $this->status);
+            $wpdb->update($table_generate, $_POST["data"], ['id' => $_POST["data"]["id"]]);
+            $list = $db->Select($table_generate, $this->status);
             return json_encode($list[0]);;
         } else {
-            $wpdb->insert($table_chatgpt, $_POST["data"]);
+            $wpdb->insert($table_generate, $_POST["data"]);
             return json_encode("there is not data");
         }
     }
 
-    public function GetDataUserAdminchatgpt()
+    public function GetDataUserAdmin()
     {
         global $wpdb;
-        $db = new chatgptModel;
-        $table_chatgpt = "{$wpdb->prefix}chatgpt";
-        $list = $db->Select($table_chatgpt, $this->status);
-        // if(empty($list)){
-        //     return json_encode();
-        // }
+        $db = new GeneratePageModel;
+        $table_generate = $wpdb->prefix.$this->table_generate;
+        $list = $db->Select($table_generate, $this->status);
         return json_encode($list[0]);
     }
 }

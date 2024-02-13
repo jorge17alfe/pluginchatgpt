@@ -7,28 +7,28 @@ jQuery(document).ready(($) => {
 
 
         datas = {
-            id: chatgptid.value,
-            status: chatgptstatus.value,
-            tokenOpenai: chatgptToken.value,
-            amazonID: chatgptAmazon.value,
-            name: chatgptName.value,
-            surname: chatgptSurname.value,
-            email: chatgptEmail.value,
-            chatgptversion: chatgptversion.value
+            id: generatePageId.value,
+            status: generatePageStatus.value,
+            tokenOpenai: generatePageToken.value,
+            amazonID: generatePageAmazon.value,
+            name: generatePageName.value,
+            surname: generatePageSurname.value,
+            email: generatePageEmail.value,
+            chatgptversion: generatePageVersion.value
         }
 
         $.ajax({
             type: "POST",
             url: url,
             data: {
-                action: "save_data_user_chatgpt",
+                action: "save_data_user_admin",
                 nonce: PetitionAjax.security,
                 data: datas,
             },
 
         }).done((response) => {
             location.reload()
-            // getRow(response)
+            getRow(response)
         });
 
 
@@ -40,7 +40,7 @@ jQuery(document).ready(($) => {
         type: "GET",
         url: url,
         data: {
-            action: "get_data_user_chatgpt",
+            action: "get_data_user_admin",
             nonce: PetitionAjax.security
         },
 
@@ -53,13 +53,13 @@ jQuery(document).ready(($) => {
         response = JSON.parse(response)
         console.log(response)
         // $("#chatgptToken").attr("disabled","disabled")
-        chatgptToken.value = response.tokenOpenai
-        chatgptAmazon.value = response.amazonID
-        chatgptid.value = response.id
-        chatgptName.value = response.name
-        chatgptSurname.value = response.surname
-        chatgptEmail.value = response.email
-        $(`#chatgptversion option[value='${response.chatgptversion}']`).attr("selected", "selected");
+        generatePageToken.value = response.tokenOpenai
+        generatePageAmazon.value = response.amazonID
+        generatePageId.value = response.id
+        generatePageName.value = response.name
+        generatePageSurname.value = response.surname
+        generatePageEmail.value = response.email
+        $(`#generatePageVersion option[value='${response.generatePageVersion}']`).attr("selected", "selected");
     }
 
     $("#spinner").hide()
@@ -93,8 +93,8 @@ jQuery(document).ready(($) => {
             $("#spinner").hide()
             response = response.substring(0, response.length - 1)
             response = JSON.parse(response)
-
-            console.log(response)
+            
+            console.log(response.content)
 
             $("#resultpageIA").html(response.content)
             $("#resultpageIA").append(`<a>${response.id}</a>`)

@@ -1,4 +1,4 @@
-<div class="container " id="chatgpt1">
+<div class="container " id="generatepage1">
     <div class="py-3">
         <div class="pb-2">
             <h1 class="text-center"> <?= get_admin_page_title() ?></h1>
@@ -10,40 +10,40 @@
     </div>
     <form class=" row g-2  my-3" id="formDataUser" novalidate>
         <div class="col-md-12 col-lg-8">
-            <input type="hidden" class="form-control form-control-sm" value="0" id="chatgptid" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            <input type="hidden" class="form-control form-control-sm" value="admin" id="chatgptstatus" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <input type="hidden" class="form-control form-control-sm" value="0" id="generatePageId" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <input type="hidden" class="form-control form-control-sm" value="admin" id="generatePageStatus" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             <div class="input-group input-group-sm ">
                 <span class="input-group-text">Token Openai</span>
-                <input type="text" class="form-control form-control-sm" value="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" id="chatgptToken" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" class="form-control form-control-sm" value="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" id="generatePageToken" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4 ">
             <div class="input-group input-group-sm  ">
                 <span class="input-group-text">Amazon ID</span>
-                <input type="text" class="form-control form-control-sm" value="alocraise03-21" id="chatgptAmazon" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" class="form-control form-control-sm" value="alocraise03-21" id="generatePageAmazon" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4">
             <div class="input-group input-group-sm ">
                 <span class="input-group-text">Name</span>
-                <input type="text" class="form-control form-control-sm" value="Jorgeuis" id="chatgptName" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" class="form-control form-control-sm" value="Jorgeuis" id="generatePageName" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4">
             <div class="input-group input-group-sm ">
                 <span class="input-group-text">Surname</span>
-                <input type="text" class="form-control form-control-sm" value="Ordón    ñez" id="chatgptSurname" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" class="form-control form-control-sm" value="Ordón    ñez" id="generatePageSurname" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
         <div class="col-12 col-md-6 col-lg-4">
             <div class="input-group input-group-sm ">
                 <span class="input-group-text">E-mail</span>
-                <input type="email" class="form-control form-control-sm" value="chatgptEmail@alocrasi.com" id="chatgptEmail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                <input type="email" class="form-control form-control-sm" value="generatePageEmail@alocrasi.com" id="generatePageEmail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-4">
-            <select class="form-select form-select-sm" id="chatgptversion" aria-label=".form-select-sm example">
+            <select class="form-select form-select-sm" id="generatePageVersion" aria-label=".form-select-sm example">
                 <option selected>Open this select your version</option>
                 <option value="gpt-4">gpt-4</option>
                 <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
@@ -53,7 +53,7 @@
         <div class="col-12 col-md-6 col-lg-4 ">
             <div class="input-group input-group-sm  ">
                 <span class="input-group-text">Example 2</span>
-                <input type="text" class="form-control form-control-sm" value="chatgptExample2" id="chatgptExample2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                <input type="text" class="form-control form-control-sm" value="generatePageExample2" id="generatePageExample2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
         </div>
         <div class="d-flex justify-content-center">

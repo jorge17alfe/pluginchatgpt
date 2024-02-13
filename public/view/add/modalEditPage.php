@@ -1,4 +1,4 @@
-<div class="container " id="chatgpt3">
+<div class="container " id="generatepage3">
     <div class="py-3">
         <div class="pb-2">
             <h1 class="text-center"> <?= get_admin_page_title() ?></h1>

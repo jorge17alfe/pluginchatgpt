@@ -8,8 +8,9 @@
 
 <?php
 global $wpdb;
-$query = "SELECT * FROM {$wpdb->prefix}chatgpt WHERE id = 0";
+$query = "SELECT * FROM {$wpdb->prefix}generatepageadmin WHERE id = 0";
 $user = $wpdb->get_results($query, ARRAY_A);
+// print_r(count($user));
 require_once __DIR__ . "/add/admin.php";
 
 if (count($user) === 1) {
@@ -24,16 +25,16 @@ if (count($user) === 1) {
 
     <script>
         var pages = {
-            chatgpt1: {
+            generatepage1: {
                 title: "Admin "
             },
-            chatgpt2: {
+            generatepage2: {
                 title: "Create "
             },
-            chatgpt3: {
+            generatepage3: {
                 title: "Modal "
             },
-            chatgpt4: {
+            generatepage4: {
                 title: "List Pages"
             },
         }
@@ -53,7 +54,7 @@ if (count($user) === 1) {
 
         showPage2()
 
-        function showPage2(e = "chatgpt1") {
+        function showPage2(e = "generatepage1") {
 
             for (let k in pages) {
                 if (k == e) {
