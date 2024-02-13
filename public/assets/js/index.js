@@ -94,7 +94,7 @@ jQuery(document).ready(($) => {
             response = response.substring(0, response.length - 1)
             response = JSON.parse(response)
             
-            console.log(response.content)
+            console.log(response)
 
             $("#resultpageIA").html(response.content)
             $("#resultpageIA").append(`<a>${response.id}</a>`)

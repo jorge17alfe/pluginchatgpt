@@ -5,7 +5,7 @@ require_once plugin_dir_path(__DIR__) . "model/generatePageModel.php";
 class GeneratePageController
 {
 
-            
+
     private $db;
     private $table_generate;
     private $table_admin;
@@ -13,10 +13,10 @@ class GeneratePageController
     public function __construct()
     {
         $this->db = new GeneratePageModel;
-        $this->table_generate= "generatepage";
-        $this->table_admin= "generatepageadmin";
+        $this->table_generate = "generatepage";
+        $this->table_admin = "generatepageadmin";
     }
-   
+
     // public function GetAll($table, $column, $since, $total_rows)
     // {
     //     global $wpdb;
@@ -35,7 +35,7 @@ class GeneratePageController
     {
         global $wpdb;
         // return json_encode($_GET);
-        $result = $this->GetGroupPages($wpdb->prefix.$this->table_generate, "*", $since, $total_rows);
+        $result = $this->GetGroupPages($wpdb->prefix . $this->table_generate, "*", $since, $total_rows);
         return json_encode($result);
     }
 
@@ -44,11 +44,23 @@ class GeneratePageController
     {
 
         include_once __DIR__ . "/../../vendor/autoload.php";
+
+        if (!file_exists(__DIR__ . "/../../vendor/autoload.php")) {
+            return json_encode(["content" =>  "eject dependencias [composer install]", "id" => 0]);
+        }
+
+
         if ($_POST["action"] == "save_create_page_IA") {
-            
+
             global $wpdb;
-            $response = $this->db->Select($wpdb->prefix.$this->table_admin, 0);
+            $response = $this->db->Select($wpdb->prefix . $this->table_admin, 0);
+
             $client = OpenAI::client($response[0]["tokenOpenai"]);
+
+            // if (!isset($client)) {
+                return json_encode(["content" => $client, "id" => 3]);
+                return json_encode(["content" => "Verify your key OPenAI and versionGPT", "id" => 3]);
+            // }
             $getResponseChatgpt = $this->ArmConsult($_POST["data"]);
 
             $result = $client->chat()->create([
@@ -64,33 +76,37 @@ class GeneratePageController
 
             $content = wpautop($result->choices[0]->message->content);
 
-            $query = "SELECT id FROM {$wpdb->prefix}{$this->table_generate} ORDER BY id DESC limit 1";
-            $getId =  $wpdb->get_results($query, ARRAY_A);
-            $printId = ($getId[0]["id"]);
+            $printId = $this->GetLateRow($wpdb->prefix.$this->table_generate);
 
             $data = [
-                "shortCode" => "[CHATCONSULT id='" . ($printId+1) . "']",
+                "shortCode" => "[CHATCONSULT id='" . ($printId + 1) . "']",
                 "title" => $_POST["data"]['title'],
                 // "consult" => $_POST["data"]["content"],//come imput frontend
                 "consult" => $getResponseChatgpt,
                 "content" => $content
             ];
 
-            $wpdb->insert($wpdb->prefix.$this->table_generate, $data);
-       
+            $wpdb->insert($wpdb->prefix . $this->table_generate, $data);
+
 
             return json_encode(["content" => $content, "id" => ($printId + 1)]);
         }
     }
 
 
-   
+    public function GetLateRow($table)
+    {
+        global $wpdb;
+        $query = "SELECT id FROM {$table} ORDER BY id DESC limit 1";
+        $getId =  $wpdb->get_results($query, ARRAY_A);
+        return ($getId[0]["id"]);
+    }
 
     public function GetShortCode($atts)
     {
 
         global $wpdb;
-        $response = $this->db->Select($wpdb->prefix.$this->table_generate , $atts['id']);
+        $response = $this->db->Select($wpdb->prefix . $this->table_generate, $atts['id']);
         if (count($response) > 0) {
             return $response[0]["content"];
         } else {
