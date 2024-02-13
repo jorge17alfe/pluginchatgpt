@@ -43,7 +43,7 @@ class GeneratePageController
     public function SaveCreatePageIA()
     {
 
-        include_once __DIR__ . "/../lib/vendor/autoload.php";
+        include_once __DIR__ . "/../../vendor/autoload.php";
         if ($_POST["action"] == "save_create_page_IA") {
             
             global $wpdb;

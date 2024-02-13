@@ -1,0 +1,24 @@
+{
+    "name": "jorge_luis/generatepage",
+    "autoload": {
+        "psr-4": {
+            "JorgeLuis\\Generatepage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jorge17alfe",
+            "email": "jorgeordonezmorales@gmail.com"
+        }
+    ],
+    "require": {
+        "openai-php/client": "^0.8.1",
+        "symfony/http-client": "^7.0",
+        "nyholm/psr7": "^1.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
+}
