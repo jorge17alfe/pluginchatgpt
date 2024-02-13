@@ -41,6 +41,11 @@ class GeneratePageModel
         $query = "SELECT * FROM $table WHERE id = $id";
         return $wpdb->get_results($query, ARRAY_A);
     }
+    public function Insert($table, $data)
+    {
+        global $wpdb;
+        $wpdb->insert($table, $data);
+    }
 
 
   
