@@ -14,7 +14,7 @@ class GeneratePageModel
             `tokenOpenai` VARCHAR(100) NULL,
             `amazonID` VARCHAR(50) NULL,
             `email` VARCHAR(80) NULL,
-            `chatgptversion` VARCHAR(30) NULL,
+            `gptversion` VARCHAR(30) NULL,
             PRIMARY KEY (`id`));
             ";
 

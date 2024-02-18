@@ -12,7 +12,7 @@ class GptController
 
         $inputGpt = $this->ArmConsult($input);
         $result = $client->chat()->create([
-            'model' => $response[0]["chatgptversion"],
+            'model' => $response[0]["gptversion"],
             'messages' => [
                 [
                     'role' => 'user',
@@ -22,7 +22,14 @@ class GptController
             ],
         ]);
 
+
+
+
+
         return [$result, $inputGpt];
+
+
+
     }
 
     public function FormatingHtml($result)
@@ -33,8 +40,8 @@ class GptController
     public function ArmConsult($atts)
     {
 
-        return "un poema hacia  {$atts['title']} ";
-        return "Redactame un articulo completo de {$atts['title']} para una pagina web, con titulo principal envuelto en h1  y subtitulos en al menos 10 secciones envueltos en h3 un link a con src ";
+        // return "Redactame un articulo completo de {$atts['title']} para una pagina web, con titulo principal envuelto en h1  y subtitulos en al menos 10 secciones envueltos en h3 un link a con src ";
+        // return "un poema hacia  {$atts['title']} ";
         return
             "   Crea un texto de  pagina web con un titulo pegadizo de {$atts['title']} envuelto en h1. 
             Un subtitulo con una descripcion de entre 2 y 3 líneas envuelto en h3. 

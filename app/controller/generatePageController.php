@@ -58,6 +58,7 @@ class GeneratePageController
 
 
                 $gpt = new GptController;
+
                 [$result, $inputGpt] = $gpt->GenerateText($response, $_POST["data"]);
 
                 $content = $gpt->FormatingHtml($result->choices[0]->message->content);
@@ -67,6 +68,16 @@ class GeneratePageController
                 $data = $this->BuildingData($printId, $_POST["data"]['title'], $inputGpt, $content);
 
                 $this->db->insert($wpdb->prefix . $this->table_generate, $data);
+
+
+                $ty = [
+                    "post_title" => $_POST["data"]['title'],
+                    "post_content" => $content,
+                    // "post_excerpt" => "Jorge Luis y Ordoñez Morales",
+                    "post_type" => "gptgenerator"
+                ];
+
+                wp_insert_post($ty);
 
 
                 return json_encode(["content" => $content, "id" => ($printId + 1)]);

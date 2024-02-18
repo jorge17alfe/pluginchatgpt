@@ -133,3 +133,7 @@ function GetShortCode($atts)
     return $a->GetShortCode($atts);
 }
 add_shortcode("GENERATEGPT", "GetShortCode");
+
+
+
+

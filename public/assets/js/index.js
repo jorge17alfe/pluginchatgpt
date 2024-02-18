@@ -14,7 +14,7 @@ jQuery(document).ready(($) => {
             name: generatePageName.value,
             surname: generatePageSurname.value,
             email: generatePageEmail.value,
-            chatgptversion: generatePageVersion.value
+            gptversion: generatePageVersion.value
         }
 
         $.ajax({
@@ -51,7 +51,7 @@ jQuery(document).ready(($) => {
     function getRow(response) {
         response = response.substring(0, response.length - 1)
         response = JSON.parse(response)
-        console.log(response)
+        // console.log(response.gptversion)
         // $("#chatgptToken").attr("disabled","disabled")
         generatePageToken.value = response.tokenOpenai
         generatePageAmazon.value = response.amazonID
@@ -59,7 +59,9 @@ jQuery(document).ready(($) => {
         generatePageName.value = response.name
         generatePageSurname.value = response.surname
         generatePageEmail.value = response.email
-        $(`#generatePageVersion option[value='${response.generatePageVersion}']`).attr("selected", "selected");
+        $(`#generatePageVersion option[value='${response.gptversion}']`).attr("selected", "selected");
+       
+       
     }
 
     $("#spinner").hide()
