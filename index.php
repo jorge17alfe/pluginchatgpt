@@ -7,28 +7,23 @@ Version: 1.00
 
 require_once "app/controller/generatePageController.php";
 require_once "app/controller/adminController.php";
+$generatePageController =   new GeneratePageController;
+$adminController =   new AdminController;
 
 define('URLPLUGIN', basename(dirname(__FILE__)) . "/public/view/index.php");
 
-function Active()
-{
-    $a =   new adminController;
-    $a->Active();
-}
-register_activation_hook(__FILE__, 'Active');
+
+register_activation_hook(__FILE__, array($adminController, 'Active'));
 
 
-function Desactive()
-{
-    flush_rewrite_rules();
-}
-register_deactivation_hook(__FILE__, 'Desactive');
+
+register_deactivation_hook(__FILE__, array($adminController, 'Desactive'));
 
 
 function CreateMenu()
 {
-    $a =   new adminController;
-    $a->CreateMenu(plugin_dir_path(__FILE__) . 'public/view/index.php');
+    global $adminController;
+    $adminController->CreateMenu(plugin_dir_path(__FILE__) . 'public/view/index.php');
 }
 add_action('admin_menu', 'CreateMenu');
 
@@ -36,7 +31,6 @@ add_action('admin_menu', 'CreateMenu');
 
 function RegisterBootstrapJS($hook)
 {
-    // echo "<script>console.log('".URLPLUGIN."')</script>";
     if ($hook != URLPLUGIN) {
         return;
     }
@@ -77,8 +71,8 @@ add_action('admin_enqueue_scripts', 'RegisterJsGeneratePage');
 
 function getDataUserAdmin()
 {
-    $a =   new adminController;
-    echo $a->GetDataUserAdmin();
+    global $adminController;
+    echo $adminController->GetDataUserAdmin();
 }
 
 add_action('wp_ajax_nopriv_get_data_user_admin', 'GetDataUserAdmin');
@@ -86,8 +80,8 @@ add_action('wp_ajax_get_data_user_admin', 'GetDataUserAdmin');
 
 function SaveDataUserAdmin()
 {
-    $a =   new adminController;
-    echo $a->SaveDataUserAdmin();
+    global $adminController;
+    echo $adminController->SaveDataUserAdmin();
 }
 
 add_action('wp_ajax_nopriv_save_data_user_admin', 'SaveDataUserAdmin');
@@ -97,8 +91,8 @@ add_action('wp_ajax_save_data_user_admin', 'SaveDataUserAdmin');
 function SaveCreatePageIA()
 {
 
-    $a =   new GeneratePageController;
-    echo  $a->SaveCreatePageIA();
+    global $generatePageController ;
+    echo  $generatePageController->SaveCreatePageIA();
 }
 
 add_action('wp_ajax_nopriv_save_create_page_IA', 'SaveCreatePageIA');
@@ -119,8 +113,8 @@ function GetAllPages()
         $since = 0;
         $total_rows = 5;
     }
-    $a =   new GeneratePageController;
-    echo  $a->GetAllPages(($since * $total_rows), $total_rows);
+    $generatePageController  =   new GeneratePageController;
+    echo  $generatePageController ->GetAllPages(($since * $total_rows), $total_rows);
 }
 
 add_action('wp_ajax_nopriv_get_all_pages', 'GetAllPages');
@@ -129,11 +123,7 @@ add_action('wp_ajax_get_all_pages', 'GetAllPages');
 
 function GetShortCode($atts)
 {
-    $a =   new GeneratePageController;
-    return $a->GetShortCode($atts);
+    $generatePageController  =   new GeneratePageController;
+    return $generatePageController ->GetShortCode($atts);
 }
 add_shortcode("GENERATEGPT", "GetShortCode");
-
-
-
-

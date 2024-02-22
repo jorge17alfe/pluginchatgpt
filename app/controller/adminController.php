@@ -20,6 +20,10 @@ class AdminController
         $a = new GeneratePageModel;
         $a->Active();
     }
+    public function Desactive()
+    {
+        flush_rewrite_rules();
+    }
 
     public function CreateMenu($urlFile)
     {

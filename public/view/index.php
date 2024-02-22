@@ -25,11 +25,11 @@ if (count($user) === 1) {
 
     <script>
         var pages = {
-            generatepage1: {
-                title: "Admin "
-            },
             generatepage2: {
                 title: "Create "
+            },
+            generatepage1: {
+                title: "Admin "
             },
             generatepage3: {
                 title: "Modal "
@@ -54,7 +54,7 @@ if (count($user) === 1) {
 
         showPage2()
 
-        function showPage2(e = "generatepage1") {
+        function showPage2(e = "generatepage2") {
 
             for (let k in pages) {
                 if (k == e) {

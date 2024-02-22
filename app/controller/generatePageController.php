@@ -48,44 +48,44 @@ class GeneratePageController
             return json_encode(["content" =>  "eject dependencias [composer install]", "id" => 0]);
         }
 
-
         try {
             if ($_POST["action"] == "save_create_page_IA") {
 
                 global $wpdb;
                 $response = $this->db->Select($wpdb->prefix . $this->table_admin, 0);
 
+                $r = new GptController($response[0], $_POST["data"]['title']);
+
+                [$result,  $inputGpt] = $r->ResponseAll();
+
+                $content = wpautop($result);
+
+                // $printId = $this->GetLateRow($wpdb->prefix . $this->table_generate);
+
+                // $data = $this->BuildingData($printId, $_POST["data"]['title'], $inputGpt, $content);
+
+                // $this->db->insert($wpdb->prefix . $this->table_generate, $data);
 
 
-                $gpt = new GptController;
+                // $ty = [
+                //     "post_title" => $_POST["data"]['title'],
+                //     "post_content" => $content,
+                //     // "post_excerpt" => "Jorge Luis y Ordoñez Morales",
+                //     "post_type" => "gptgenerator"
+                // ];
 
-                [$result, $inputGpt] = $gpt->GenerateText($response, $_POST["data"]);
+                // wp_insert_post($ty);
 
-                $content = $gpt->FormatingHtml($result->choices[0]->message->content);
-
-                $printId = $this->GetLateRow($wpdb->prefix . $this->table_generate);
-
-                $data = $this->BuildingData($printId, $_POST["data"]['title'], $inputGpt, $content);
-
-                $this->db->insert($wpdb->prefix . $this->table_generate, $data);
-
-
-                $ty = [
-                    "post_title" => $_POST["data"]['title'],
-                    "post_content" => $content,
-                    // "post_excerpt" => "Jorge Luis y Ordoñez Morales",
-                    "post_type" => "gptgenerator"
-                ];
-
-                wp_insert_post($ty);
-
-
-                return json_encode(["content" => $content, "id" => ($printId + 1)]);
+                // $msg = "Post generate, See in Post geneartor";
+                $msg = $content;
             }
         } catch (Exception $e) {
-            return json_encode(["content" =>  $e->getMessage(), "id" => 3]);
+            $msg = $e->getMessage();
         }
+        return json_encode(["content" =>  $msg, "id" => $inputGpt]);
     }
+
+   
 
     public function BuildingData($printId, $title, $inputGpt, $content)
     {
