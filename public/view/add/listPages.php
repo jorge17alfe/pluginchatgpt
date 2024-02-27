@@ -1,4 +1,4 @@
-<div class="container" id="generatepage4">
+<div id="generatepage4">
     <div class="py-3">
         <div class="pb-2">
             <h1 class="text-center"> <?= get_admin_page_title() ?></h1>
@@ -11,8 +11,8 @@
         <thead>
             <tr>
                 <th scope="col">#ID</th>
-                <th scope="col">Shortcode</th>
-                <th scope="col">Consult</th>
+                <th scope="col">Name URL</th>
+                <th scope="col">Status</th>
                 <th scope="col">Title</th>
             </tr>
         </thead>

@@ -4,14 +4,12 @@ require_once plugin_dir_path(__DIR__) . "model/generatePageModel.php";
 
 class AdminController
 {
-    private $status ='';
+    private $status = '';
     private $db;
-    private $table_generate ;
+    private $table_admin = "generatepageadmin";
 
     public function __construct()
     {
-        $this->status= 0;
-        $this->table_generate = "generatepageadmin";
         $this->db = new GeneratePageModel;
     }
 
@@ -43,17 +41,17 @@ class AdminController
         global $wpdb;
 
         $db = new GeneratePageModel;
-        $table_generate = $wpdb->prefix.$this->table_generate;
-        $list = $db->Select($table_generate, $this->status);
+        $table_admin = $wpdb->prefix . $this->table_admin;
+        $list = $db->SelectAllId($table_admin, $_POST["data"]["id"]);
 
-        if (count($list)===1) {
+        if (count($list) === 1) {
 
-            $wpdb->update($table_generate, $_POST["data"], ['id' => $_POST["data"]["id"]]);
-            $list = $db->Select($table_generate, $this->status);
+            $wpdb->update($table_admin, $_POST["data"], ['id' => $_POST["data"]["id"]]);
+            $list = $db->SelectAllId($table_admin, $_POST["data"]["id"]);
             return json_encode($list[0]);;
         } else {
-            $wpdb->insert($table_generate, $_POST["data"]);
-            return json_encode("there is not data");
+            $wpdb->insert($table_admin, $_POST["data"]);
+            return json_encode("Correct Register ");
         }
     }
 
@@ -61,8 +59,15 @@ class AdminController
     {
         global $wpdb;
         $db = new GeneratePageModel;
-        $table_generate = $wpdb->prefix.$this->table_generate;
-        $list = $db->Select($table_generate, $this->status);
-        return json_encode($list[0]);
+        $table_admin = $wpdb->prefix . $this->table_admin;
+        $list = $db->SelectAllId($table_admin, get_current_user_id());
+        // if (count($list) === 1) {
+            $msg=  $list[0];
+
+        // }else{
+        //     $msg= "There's not user register";
+        // }
+
+       return json_encode($msg);
     }
 }

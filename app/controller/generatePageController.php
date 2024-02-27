@@ -14,29 +14,29 @@ class GeneratePageController
     public function __construct()
     {
         $this->db = new GeneratePageModel;
-        $this->table_generate = "generatepage";
+        $this->table_generate = "wp_posts";
         $this->table_admin = "generatepageadmin";
     }
-
-    // public function GetAll($table, $column, $since, $total_rows)
-    // {
-    //     global $wpdb;
-    //     $query = "SELECT * FROM $table";
-    //     return $wpdb->get_results($query, ARRAY_A);
-    // }
 
     public function GetGroupPages($table, $column, $since, $total_rows)
     {
         global $wpdb;
-        $query = "SELECT $column FROM $table ORDER BY id ASC LIMIT $since, $total_rows";
+        $query = "SELECT $column FROM  $table  WHERE post_author = ".get_current_user_id()." ORDER BY ID DESC LIMIT $since, $total_rows";
+        // $query = "SELECT $column FROM  $table  ORDER BY ID ASC LIMIT $since, $total_rows";
         return $wpdb->get_results($query, ARRAY_A);
     }
 
     public function GetAllPages($since, $total_rows)
     {
-        global $wpdb;
-        // return json_encode($_GET);
-        $result = $this->GetGroupPages($wpdb->prefix . $this->table_generate, "*", $since, $total_rows);
+        $result = get_posts(
+            [
+                'post_type'  => 'gptgenerator',
+                'orderby'          => "ID",
+                'limits' => 3,
+                'order'            => 'ASC',
+            ]
+        );
+        $result = $this->GetGroupPages($this->table_generate, "*" ,$since, $total_rows);
         return json_encode($result);
     }
 
@@ -52,49 +52,34 @@ class GeneratePageController
             if ($_POST["action"] == "save_create_page_IA") {
 
                 global $wpdb;
-                $response = $this->db->Select($wpdb->prefix . $this->table_admin, 0);
+                $response = $this->db->SelectAllId($wpdb->prefix . $this->table_admin, get_current_user_id());
 
                 $r = new GptController($response[0], $_POST["data"]['title']);
 
-                [$result,  $inputGpt] = $r->ResponseAll();
+                $result  = $r->ResponseAll();
 
-                $content = wpautop($result);
+                $result->content = wpautop($result->content);
 
-                // $printId = $this->GetLateRow($wpdb->prefix . $this->table_generate);
+                $create_post = $this->BuildingDataPost($result->title, $result->content, "gptgenerator");
 
-                // $data = $this->BuildingData($printId, $_POST["data"]['title'], $inputGpt, $content);
+                $id = wp_insert_post($create_post);
 
-                // $this->db->insert($wpdb->prefix . $this->table_generate, $data);
-
-
-                // $ty = [
-                //     "post_title" => $_POST["data"]['title'],
-                //     "post_content" => $content,
-                //     // "post_excerpt" => "Jorge Luis y Ordoñez Morales",
-                //     "post_type" => "gptgenerator"
-                // ];
-
-                // wp_insert_post($ty);
-
-                // $msg = "Post generate, See in Post geneartor";
-                $msg = $content;
+                $msg = $result;
             }
         } catch (Exception $e) {
             $msg = $e->getMessage();
         }
-        return json_encode(["content" =>  $msg, "id" => $inputGpt]);
+        return json_encode(["content" =>  $msg, "id" => $id]);
     }
 
-   
 
-    public function BuildingData($printId, $title, $inputGpt, $content)
+    public function BuildingDataPost($title,  $content, $post_type_name = "post")
     {
         return array(
-            "shortCode" => "[CHATCONSULT id='" . ($printId + 1) . "']",
-            "title" => $title,
-            // "consult" => $_POST["data"]["content"],//come imput frontend
-            "consult" => $inputGpt,
-            "content" => $content
+            "post_title" => $title,
+            "post_content" => $content,
+            // "post_excerpt" => "Jorge Luis y Ordoñez Morales",
+            "post_type" => $post_type_name
         );
     }
 
@@ -110,7 +95,7 @@ class GeneratePageController
     {
 
         global $wpdb;
-        $response = $this->db->Select($wpdb->prefix . $this->table_generate, $atts['id']);
+        $response = $this->db->SelectAllId($wpdb->prefix . $this->table_generate, $atts['id']);
         if (count($response) > 0) {
             return $response[0]["content"];
         } else {

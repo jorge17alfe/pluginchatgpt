@@ -1,6 +1,7 @@
 let pagin = 0
 let total_rows = 0
 jQuery(document).ready(($) => {
+    $("#btnedittext").hide()
     var url = PetitionAjax.url;
     $("#formDataUser").on("submit", (e) => {
         e.preventDefault()
@@ -8,12 +9,8 @@ jQuery(document).ready(($) => {
 
         datas = {
             id: generatePageId.value,
-            status: generatePageStatus.value,
             tokenOpenai: generatePageToken.value,
             amazonID: generatePageAmazon.value,
-            name: generatePageName.value,
-            surname: generatePageSurname.value,
-            email: generatePageEmail.value,
             gptversion: generatePageVersion.value
         }
 
@@ -51,35 +48,24 @@ jQuery(document).ready(($) => {
     function getRow(response) {
         response = response.substring(0, response.length - 1)
         response = JSON.parse(response)
-        // console.log(response.gptversion)
-        // $("#chatgptToken").attr("disabled","disabled")
+        // console.log(response)
         generatePageToken.value = response.tokenOpenai
         generatePageAmazon.value = response.amazonID
-        generatePageId.value = response.id
-        generatePageName.value = response.name
-        generatePageSurname.value = response.surname
-        generatePageEmail.value = response.email
+       
         $(`#generatePageVersion option[value='${response.gptversion}']`).attr("selected", "selected");
-       
-       
     }
 
     $("#spinner").hide()
-    $("#btndev").on("click", (e) => {
+    $("#btncreate").on("click", (e) => {
         e.preventDefault()
-
-
         data = {
-            // id: null,
             title: titleIA.value,
             content: descriptionIA.value,
-
         }
 
         $("#spinner").show()
 
-        var datos = $("#formCreatePageIA").serialize();
-        // alert(url)
+        // var datos = $("#formCreatePageIA").serialize();
         $.ajax({
             type: "POST",
             url: url,
@@ -97,13 +83,9 @@ jQuery(document).ready(($) => {
             response = JSON.parse(response)
             
             console.log(response)
-
-            $("#resultpageIA").html(response.content)
-            $("#resultpageIA").append(`<a>${response.id}</a>`)
-            $("#btneditText").on("click", () => {
-                $("#btneditText").html("Send update")
-                $("#editTextIA").html(response.content)
-            })
+            $("#resultpageIA").html(response.content.title + response.content.content)
+            $("#btncreate").html("New Create")
+            $("#btnedittext").show().attr("href", `${window.location.hostname}/../post.php?post=${response.id}&action=edit`)
 
         })
 
@@ -131,26 +113,22 @@ jQuery(document).ready(($) => {
 
 
 })
-
 function printGrouprow(response = '') {
     jQuery(document).ready(($) => {
         var add = '';
         for (let k in response) {
             // console.log(response[k]["shortCode"])
             add += `<tr>`
-            add += `<th scope="row">${response[k]["id"]}</th>`
-            add += `<td>${response[k]["shortCode"]}</td>`
-            add += `<td>${response[k]["consult"]}</td>`
-            add += `<td>${response[k]["title"]}</td>`
+            add += `<th scope="row">${response[k]["ID"]}</th>`
+            add += `<td>${response[k]["post_name"]}</td>`
+            add += `<td>${response[k]["post_status"]}</td>`
+            add += `<td>${response[k]["post_title"]}</td>`
+            add += `<td><a href='${window.location.hostname}/../post.php?post=${response[k]["ID"]}&action=edit'>Edit</a></td>`
             add += `</tr>`
 
         }
         $("#listPages>tbody").html(add);
-        // var adds = `<div class=""><p class=" d-flex justify-content-around">`;
-        // adds += `<a  onclick=' pagination(-1)' href="javascritp:void(0);">PREV</a>`;
-        // adds += `<a  onclick=' pagination(+1)' href="javascritp:void(0);">NEXT</a>`;
-        // adds += `</p></div>`;
-        // $("#listPages").after(adds);
+   
     })
 }
 function pagination(arg) {
